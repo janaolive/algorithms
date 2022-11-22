@@ -8,4 +8,5 @@ black==22.6.0
 pytest-cov==3.0.0
 big-O==0.10.2
 matplotlib==3.5.3
+pytest-raises
 git+https://github.com/betrybe/pytest-dependency
