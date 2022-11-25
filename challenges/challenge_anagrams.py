@@ -1,30 +1,42 @@
-def is_anagram(first_string, second_string):
-    """Faça o código aqui."""
-    word_one, word_two = first_string.lower(), second_string.lower()
-    word_one_list = [letter for letter in word_one]
-    word_two_list = [letter for letter in word_two]
-    word_divider(word_one_list, 0, len(word_one_list) - 1)
-    word_divider(word_two_list, 0, len(word_two_list) - 1)
-    is_anagram = word_one_list == word_two_list
-    if first_string == "" or second_string == "":
-        is_anagram = False
-    return ("".join(word_one_list), "".join(word_two_list), is_anagram)
-
-
-def word_divider(word_list, start, end):
+def word_sort(string, start, end):
     if start < end:
-        base = pivot_define(word_list, start, end)
-        word_divider(word_list, start, base - 1)
-        word_divider(word_list, base + 1, end)
+        p = divider(string, start, end)
+        word_sort(string, start, p - 1)
+        word_sort(string, p + 1, end)
 
 
-def pivot_define(list, start, end):
-    pivot = list[end]
+def divider(string, start, end):
+    pivot = string[end]
     delimiter = start - 1
 
     for index in range(start, end):
-        if list[index] <= pivot:
-            delimiter += 1
-            list[index], list[delimiter] = list[delimiter], list[index]
-        list[delimiter + 1], list[end] = list[end], list[delimiter + 1]
+        if string[index] <= pivot:
+            delimiter = delimiter + 1
+            string[index], string[delimiter] = string[delimiter], string[index]
+    string[delimiter + 1], string[end] = string[end], string[delimiter + 1]
     return delimiter + 1
+
+
+def is_anagram(first_string, second_string):
+    """Faça o código aqui."""
+    first_string_lower = []
+    for letter in first_string:
+        first_string_lower.append(letter.lower())
+
+    second_string_lower = []
+    for letter in second_string:
+        second_string_lower.append(letter.lower())
+
+    word_sort(first_string_lower, 0, len(first_string_lower) - 1)
+    word_sort(second_string_lower, 0, len(second_string_lower) - 1)
+
+    first_string_sorted = ''.join(first_string_lower)
+    second_string_sorted = ''.join(second_string_lower)
+
+    if (
+        first_string_sorted != second_string_sorted or
+        first_string_sorted == '' or second_string_sorted == ''
+    ):
+        return (first_string_sorted, second_string_sorted, False)
+    else:
+        return (first_string_sorted, second_string_sorted, True)
